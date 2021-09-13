@@ -34,10 +34,10 @@ app.post("/whatsapp", async (req, res) => {
 
   try {
     if (
-      incomingWhatsappMsg.includes("oii") ||
-      incomingWhatsappMsg.includes("oi") ||
-      incomingWhatsappMsg.includes("ola") ||
-      incomingWhatsappMsg.includes("quanto")
+      incomingWhatsappMsg == "oii" ||
+      incomingWhatsappMsg == "oi" ||
+      incomingWhatsappMsg == "ola" ||
+      incomingWhatsappMsg == "quanto"
     ) {
       res.header("Content-Type", "text/xml").status(200);
       results.body(
@@ -48,18 +48,12 @@ app.post("/whatsapp", async (req, res) => {
       const numero = req.body.From;
       catalogo.envioDeProdutos(numero);
     } else if (incomingWhatsappMsg == "2") {
-      client.messages
-        .create({
-          body: `iniciado 2 `,
-          mediaUl: [
-            "https://www.google.com.br/maps/place/Supermercados+Nagumo+-+Taubat%C3%A9+Arei%C3%A3o/@-23.0213925,-45.5871627,12z/data=!4m9!1m2!2m1!1snagumo!3m5!1s0x94ccf9a58ff61643:0xcc834660c6010c71!8m2!3d-23.0122686!4d-45.5526126!15sCgZuYWd1bW8iA4gBAVoIIgZuYWd1bW-SAQtzdXBlcm1hcmtldA",
-          ],
-          from: "whatsapp:+14155238886",
-          to: "whatsapp:+5512981176803",
-        })
-        .then((message) => console.log(JSON.stringify(message)));
-      results.body("nossa loja fica em ... ");
+      // header("Content-Type", "text/xml").status(200);
       res.writeHead(200, { "Content-Type": "text/xml" });
+      results.body(
+        "nossa loja fica próximo ao  ...  \n https://www.google.com.br/maps/place/Supermercados+Nagumo+-+Taubat%C3%A9+Arei%C3%A3o/@-23.0213925,-45.5871627,12z/data=!4m9!1m2!2m1!1snagumo!3m5!1s0x94ccf9a58ff61643:0xcc834660c6010c71!8m2!3d-23.0122686!4d-45.5526126!15sCgZuYWd1bW8iA4gBAVoIIgZuYWd1bW-SAQtzdXBlcm1hcmtldA"
+      );
+
       res.end(results.toString());
     } else if (incomingWhatsappMsg == "3") {
       results.body("atendente falando");
