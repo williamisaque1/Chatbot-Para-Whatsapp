@@ -78,9 +78,7 @@ app.post("/whatsapp", async (req, res) => {
         `Para agilizar o atendimento Por favor escolha uma opção abaixo ${decodeURI(
           "%F0%9F%91%87"
         )} 
-    digite ${decodeURI(
-      "%31%E2%83%A3"
-    )} *Lista de produtos*  \n digite ${decodeURI(
+digite ${decodeURI("%31%E2%83%A3")} *Lista de produtos*  \n digite ${decodeURI(
           "%32%E2%83%A3"
         )} para saber a *localização da loja* \n digite ${decodeURI(
           "%33%E2%83%A3"
