@@ -11,13 +11,14 @@ const { MessagingResponse } = require("twilio").twiml;
 app.use(express.urlencoded({ extended: true }));
 const axios = require("axios");
 var menu = false;
+/*
 app.get("/api", async function (req, res) {
   let a = await axios.get(
     "http://mobile-aceite.tcu.gov.br/mapa-da-saude/rest/estabelecimentos/latitude/-23.0309/longitude/-45.5483/raio/10/?categoria=CL%C3%8DNICA"
   );
   res.send("Hello World!" + JSON.stringify(a.data));
 });
-
+*/
 app.get("/", function (req, res) {
   res.send("Hello World!");
 
