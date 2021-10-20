@@ -9,6 +9,14 @@ const client = require("twilio")(accountSid, authToken);
 const catalogo = require("./envioDoCatalogo.js");
 const { MessagingResponse } = require("twilio").twiml;
 app.use(express.urlencoded({ extended: true }));
+const axios = require("axios");
+var menu = false;
+app.get("/api", async function (req, res) {
+  let a = await axios.get(
+    "http://mobile-aceite.tcu.gov.br/mapa-da-saude/rest/estabelecimentos/latitude/-23.0309/longitude/-45.5483/raio/10/?categoria=CL%C3%8DNICA"
+  );
+  res.send("Hello World!" + JSON.stringify(a.data));
+});
 
 app.get("/", function (req, res) {
   res.send("Hello World!");
@@ -29,24 +37,51 @@ app.post("/whatsapp", async (req, res) => {
   const incomingWhatsappMsg = req.body.Body.toLowerCase();
   const twiml = new MessagingResponse();
   const results = twiml.message();
-  console.log(incomingWhatsappMsg);
-  console.log(req.body);
 
+  console.log(incomingWhatsappMsg);
+  //console.log(req.body);
+  console.log(encodeURI(req.body.Body));
   try {
     if (
       incomingWhatsappMsg == "oii" ||
       incomingWhatsappMsg == "oi" ||
       incomingWhatsappMsg == "ola" ||
-      incomingWhatsappMsg == "quanto"
+      incomingWhatsappMsg == "quanto" /* &&
+      (incomingWhatsappMsg == "sim" ||
+        incomingWhatsappMsg == "nao" ||
+        incomingWhatsappMsg == "1" ||
+        incomingWhatsappMsg == "2" ||
+        incomingWhatsappMsg == "3")*/
     ) {
       res.header("Content-Type", "text/xml").status(200);
       results.body(
-        "bem vindo a *abx imports*\nconhecer a *Lista de produtos* envie 1\nsaber a *localização da loja* envie 2\nfalar com um *atendente* envie 3"
+        "Olá, Seja bem vindo! eu sou o *Yuri* " +
+          decodeURI("%F0%9F%A4%96") +
+          "atendente virtual da *Abx Imports* deseja iniciar o atendimento? Digite *Sim* ou *Não* "
       );
+
+      res.send(results.toString());
+      menu = true;
+    } else if (incomingWhatsappMsg == "sim" && menu) {
+      menu = false;
+
+      res.header("Content-Type", "text/xml").status(200);
+      results.body(
+        `Para agilizar o atendimento Por favor escolha uma opção abaixo ${decodeURI(
+          "%F0%9F%91%87"
+        )} 
+digite ${decodeURI("%31%E2%83%A3")} *Lista de produtos*  \n digite ${decodeURI(
+          "%32%E2%83%A3"
+        )} para saber a *localização da loja* \n digite ${decodeURI(
+          "%33%E2%83%A3"
+        )} para falar com um *atendente*`
+      );
+
       res.end(results.toString());
     } else if (incomingWhatsappMsg == "1") {
       const numero = req.body.From;
-      catalogo.envioDeProdutos(numero);
+
+      res.end(catalogo.envioDeProdutos(numero));
     } else if (incomingWhatsappMsg == "2") {
       // header("Content-Type", "text/xml").status(200);
       res.writeHead(200, { "Content-Type": "text/xml" });
@@ -59,8 +94,15 @@ app.post("/whatsapp", async (req, res) => {
       results.body("atendente falando");
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(results.toString());
+    } else if (incomingWhatsappMsg == "nao" || incomingWhatsappMsg == "não") {
+      results.body("atendimento encerado");
+      res.writeHead(200, { "Content-Type": "text/xml" });
+      res.end(results.toString());
     } else {
-      results.body("não consegui achar uma resposta valida");
+      results.body(
+        "Não consegui compreender, desculpe. Prossiga com o atendimento ou digite *Voltar*"
+      );
+
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(results.toString());
     }
