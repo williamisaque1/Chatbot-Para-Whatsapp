@@ -11,6 +11,7 @@ const { MessagingResponse } = require("twilio").twiml;
 app.use(express.urlencoded({ extended: true }));
 const axios = require("axios");
 var menu = false;
+var voltar = false;
 /*
 app.get("/api", async function (req, res) {
   let a = await axios.get(
@@ -60,12 +61,18 @@ app.post("/whatsapp", async (req, res) => {
           decodeURI("%F0%9F%A4%96") +
           "atendente virtual da *Abx Imports* deseja iniciar o atendimento? Digite *Sim* ou *Não* "
       );
-
-      res.send(results.toString());
       menu = true;
-    } else if (incomingWhatsappMsg == "sim" && menu) {
-      menu = false;
-
+      voltar = false;
+      res.send(results.toString());
+    } else if (
+      (incomingWhatsappMsg == "sim" && menu) ||
+      (incomingWhatsappMsg == "voltar" ? (voltar = true) : "")
+    ) {
+      if (incomingWhatsappMsg == "voltar") {
+        menu = false;
+      }
+      console.log("menu = " + menu + "\nvoltar = " + voltar);
+      console.log(incomingWhatsappMsg == "voltar" ? (voltar = true) : "");
       res.header("Content-Type", "text/xml").status(200);
       results.body(
         `Para agilizar o atendimento Por favor escolha uma opção abaixo ${decodeURI(
@@ -79,11 +86,17 @@ digite ${decodeURI("%31%E2%83%A3")} *Lista de produtos*  \n digite ${decodeURI(
       );
 
       res.end(results.toString());
-    } else if (incomingWhatsappMsg == "1") {
+    } else if (
+      (incomingWhatsappMsg == "1" && menu) ||
+      (incomingWhatsappMsg == "1" && voltar)
+    ) {
       const numero = req.body.From;
 
       res.end(catalogo.envioDeProdutos(numero));
-    } else if (incomingWhatsappMsg == "2") {
+    } else if (
+      (incomingWhatsappMsg == "2" && menu) ||
+      (incomingWhatsappMsg == "2" && voltar)
+    ) {
       // header("Content-Type", "text/xml").status(200);
       res.writeHead(200, { "Content-Type": "text/xml" });
       results.body(
@@ -91,18 +104,25 @@ digite ${decodeURI("%31%E2%83%A3")} *Lista de produtos*  \n digite ${decodeURI(
       );
 
       res.end(results.toString());
-    } else if (incomingWhatsappMsg == "3") {
+    } else if (
+      (incomingWhatsappMsg == "3" && menu) ||
+      (incomingWhatsappMsg == "3" && voltar)
+    ) {
       results.body("atendente falando");
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(results.toString());
-    } else if (incomingWhatsappMsg == "nao" || incomingWhatsappMsg == "não") {
+    } else if (
+      incomingWhatsappMsg == "nao" ||
+      (incomingWhatsappMsg == "não" && menu)
+    ) {
       results.body("atendimento encerado");
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(results.toString());
     } else {
       results.body(
-        "Não consegui compreender, desculpe. Prossiga com o atendimento ou digite *Voltar*"
+        "Não consegui compreender, desculpe.  digite *Voltar* para ir até o menu"
       );
+      menu = false;
 
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(results.toString());
