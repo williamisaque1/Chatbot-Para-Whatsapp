@@ -110,7 +110,7 @@ digite ${decodeURI("%31%E2%83%A3")} *Lista de produtos*  \n digite ${decodeURI(
     console.log(error);
   }
 });
-app.listen(3000, function () {
+app.listen(8080 || process.env.PORT, function () {
   console.log("Example app listening on port 3000!");
 });
 
