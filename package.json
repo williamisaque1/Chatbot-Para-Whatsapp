@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --prefix src/index.js"
+    "start": "(cd /src/index && node)"
   },
   "author": "william isaque",
   "license": "ISC",
