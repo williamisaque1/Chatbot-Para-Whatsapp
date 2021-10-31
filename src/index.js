@@ -176,7 +176,7 @@ app.post("/whatsapp", async (req, res) => {
       var results2 = twiml2.message();
       res.header("Content-Type", "text/xml").status(200);
       results2.body("estamos enviando um arquivo");
-      // enviarArquivo.envioDeArquivo(req.body.From);
+      enviarArquivo.envioDeArquivo(req.body.From);
       res.send(results2.toString());
     } else if (
       (incomingWhatsappMsg == "2" && menu) ||
