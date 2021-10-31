@@ -58,7 +58,7 @@ function enviarEmail(dados) {
         to: dados,
         subject: "catálogo",
         text: "envio do catálogo da abx imports ",
-        html: "<h1>bem vindo</h1><img  width='350' height='350' src='https://d36d-187-2-233-96.ngrok.io/logo.jpg'/>",
+        html: "<h1>bem vindo</h1><img  width='350' height='350' src='https://chat-bot-whats-app.herokuapp.com/logo.jpg'/>",
         attachments: [
           {
             filename: "planilhacatalogo.xlsx",

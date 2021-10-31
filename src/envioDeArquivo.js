@@ -7,7 +7,7 @@ const envioDeArquivo = (numero) => {
   client.messages
     .create({
       body: `catálogo de produtos `,
-      mediaUrl: `https://cbbe-187-2-233-96.ngrok.io/catalogo.pdf`,
+      mediaUrl: `https://chat-bot-whats-app.herokuapp.com/catalogo.pdf`,
       from: "whatsapp:+14155238886",
       to: `${numero}`,
     })
