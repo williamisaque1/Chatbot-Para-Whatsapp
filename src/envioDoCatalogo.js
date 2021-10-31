@@ -15,5 +15,7 @@ const envioDeProdutos = (numero) => {
       })
       .then((message) => console.log(`${message.sid}`));
   }
+  return true;
 };
+
 module.exports = { envioDeProdutos };
