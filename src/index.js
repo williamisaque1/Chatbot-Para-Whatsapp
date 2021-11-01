@@ -18,6 +18,7 @@ const { fstat } = require("fs");
 var menu = false;
 var voltar = false;
 var enviodeemail = false;
+var passo = 0;
 /*
 
 app.get("/api", async function (req, res) {
@@ -88,6 +89,10 @@ app.post("/whatsapp", async (req, res) => {
         incomingWhatsappMsg == "2" ||
         incomingWhatsappMsg == "3")*/
     ) {
+      console.log("enviadecima", enviodeemail);
+      if (enviodeemail) {
+        enviodeemail = false;
+      }
       res.header("Content-Type", "text/xml").status(200);
 
       results.body(
@@ -107,6 +112,7 @@ app.post("/whatsapp", async (req, res) => {
         console.log("enviei voltar confirmado");
         menu = false;
       }
+
       console.log("menu = " + menu + "\nvoltar = " + voltar);
       console.log(incomingWhatsappMsg == "voltar" ? (voltar = true) : "");
       res.header("Content-Type", "text/xml").status(200);
@@ -144,7 +150,17 @@ app.post("/whatsapp", async (req, res) => {
         }, 2900);
       }
       //enviarArquivo.envioDeArquivo(numero);
-    } else if (incomingWhatsappMsg == "sim" && enviodeemail) {
+    } else if (
+      (incomingWhatsappMsg == "sim" && enviodeemail) ||
+      (passo == 1 && enviodeemail)
+    ) {
+      console.log(incomingWhatsappMsg == "sim");
+      console.log("envio", enviodeemail);
+      console.log(passo);
+      if (passo == 1) {
+        passo = 0;
+        //enviodeemail = false;
+      }
       res.header("Content-Type", "text/xml").status(200);
       // console.log("menu = " + menu + "\nvoltar = " + voltar);
       results.body(
@@ -152,32 +168,59 @@ app.post("/whatsapp", async (req, res) => {
       );
       res.end(results.toString());
     } else if (
-      incomingWhatsappMsg.search(
+      (incomingWhatsappMsg.search(
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
       ) == 0 &&
-      enviodeemail
+        enviodeemail) ||
+      (incomingWhatsappMsg.search(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      ) == -1 &&
+        enviodeemail)
     ) {
-      // console.log(req);
-      console.log("existe1", await fs.existsSync("planilhacatalogo.xlsx"));
-      if (await !fs.existsSync("planilhacatalogo.xlsx")) {
-        enviarEmail.envioDeDados();
+      if (
+        incomingWhatsappMsg.search(
+          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        ) == -1 &&
+        enviodeemail
+      ) {
+        console.log("email", enviodeemail);
+        console.log(
+          incomingWhatsappMsg.search(
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+          ) == -1
+        );
+        // enviodeemail = false;
+
+        console.log(menu);
+        console.log(voltar);
+        res.header("Content-Type", "text/xml").status(200);
+        results.body("email invalido , verifique seu email e envie de novo");
+
+        res.send(results.toString());
+      } else {
+        // console.log(req);
+        console.log("existe1", await fs.existsSync("planilhacatalogo.xlsx"));
+        if (await !fs.existsSync("planilhacatalogo.xlsx")) {
+          enviarEmail.envioDeDados();
+        }
+        enviarEmail.enviarEmail(incomingWhatsappMsg);
+
+        res.header("Content-Type", "text/xml").status(200);
+        results.body(
+          "email enviado com sucesso para este email: " +
+            incomingWhatsappMsg +
+            "\n" +
+            "aguarde estamos enviando um catálogo em pdf"
+        );
+
+        enviarArquivo.envioDeArquivo(req.body.From);
+        res.send(results.toString());
       }
-      enviarEmail.enviarEmail(incomingWhatsappMsg);
-
-      res.header("Content-Type", "text/xml").status(200);
-      results.body(
-        "email enviado com sucesso para este email: " +
-          incomingWhatsappMsg +
-          "\n" +
-          "aguarde estamos enviando um catálogo em pdf"
-      );
-
-      enviarArquivo.envioDeArquivo(req.body.From);
-      res.send(results.toString());
     } else if (
       (incomingWhatsappMsg == "2" && menu) ||
       (incomingWhatsappMsg == "2" && voltar)
     ) {
+      console.log(incomingWhatsappMsg !== isNaN && incomingWhatsappMsg > 3);
       res.writeHead(200, { "Content-Type": "text/xml" });
       results.body(
         "nossa loja fica próximo ao  ...  \n https://www.google.com.br/maps/place/Supermercados+Nagumo+-+Taubat%C3%A9+Arei%C3%A3o/@-23.0213925,-45.5871627,12z/data=!4m9!1m2!2m1!1snagumo!3m5!1s0x94ccf9a58ff61643:0xcc834660c6010c71!8m2!3d-23.0122686!4d-45.5526126!15sCgZuYWd1bW8iA4gBAVoIIgZuYWd1bW-SAQtzdXBlcm1hcmtldA"
