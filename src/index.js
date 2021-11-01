@@ -111,6 +111,7 @@ app.post("/whatsapp", async (req, res) => {
       if (incomingWhatsappMsg == "voltar") {
         console.log("enviei voltar confirmado");
         menu = false;
+        enviodeemail = false;
       }
 
       console.log("menu = " + menu + "\nvoltar = " + voltar);
