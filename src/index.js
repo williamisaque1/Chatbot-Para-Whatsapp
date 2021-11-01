@@ -4,7 +4,7 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 var express = require("express");
 var app = express();
-console.log(accountSid + "" + authToken + "" + process.env.TWILIO_ACCOUNT_SID);
+console.log(accountSid + "" + authToken + " " + process.env.TWILIO_ACCOUNT_SID);
 const client = require("twilio")(accountSid, authToken);
 const catalogo = require("./envioDoCatalogo.js");
 const enviarArquivo = require("./envioDeArquivo.js");
