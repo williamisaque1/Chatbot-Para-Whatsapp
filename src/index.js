@@ -130,6 +130,19 @@ app.post("/whatsapp", async (req, res) => {
           enviodeemail = true;
         }, 2500);
       }
+    } else if (
+      (incomingWhatsappMsg == "nao" || incomingWhatsappMsg == "não") &&
+      enviodeemail
+    ) {
+      console.log(
+        "menu " + menu + " voltar " + voltar + " envio de email " + enviodeemail
+      );
+      res.header("Content-Type", "text/xml").status(200);
+
+      results.body(
+        "atendimento encerrado ! para voltar ao menu envie *voltar*"
+      );
+      res.end(results.toString());
     } else if (incomingWhatsappMsg == "sim" && enviodeemail) {
       console.log(incomingWhatsappMsg == "sim");
       console.log("envio", enviodeemail);
@@ -172,18 +185,22 @@ app.post("/whatsapp", async (req, res) => {
         if (await !fs.existsSync("planilhacatalogo.xlsx")) {
           enviarEmail.envioDeDados();
         }
-        enviarEmail.enviarEmail(incomingWhatsappMsg);
-
-        res.header("Content-Type", "text/xml").status(200);
-        results.body(
-          "email enviado com sucesso para este email: " +
-            incomingWhatsappMsg +
-            "\n" +
-            "aguarde estamos enviando um catálogo em pdf"
-        );
-
-        enviarArquivo.envioDeArquivo(req.body.From);
-        res.send(results.toString());
+        const resp = await enviarEmail.enviarEmail(incomingWhatsappMsg);
+        if (resp) {
+          res.header("Content-Type", "text/xml").status(200);
+          results.body(
+            "email enviado com sucesso para este email: " +
+              incomingWhatsappMsg +
+              "\n" +
+              "aguarde estamos enviando um catálogo em pdf"
+          );
+          enviarArquivo.envioDeArquivo(req.body.From);
+          res.send(results.toString());
+        } else {
+          res.header("Content-Type", "text/xml").status(200);
+          results.body("erro ao enviar o email");
+          res.send(results.toString());
+        }
       }
     } else if (
       (incomingWhatsappMsg == "2" && menu) ||

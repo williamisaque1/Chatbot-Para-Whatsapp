@@ -36,33 +36,28 @@ const remetente = nodeMailer.createTransport({
   },
 });
 
-function enviarEmail(dados) {
-  if (dados != undefined) {
-    console.log("email do usuario" + dados);
-
-    remetente
-      .sendMail(
-        (destinatario = {
-          from: "abximports@outlook.com",
-          to: dados,
-          subject: "catálogo",
-          text: "envio do catálogo da abx imports ",
-          html: "<h1>bem vindo a abx imports</h1><h2>olá, \n sua planilha com os produtos chegou !!!  </h2><img  width='350' height='350' src='https://chat-bot-whats-app.herokuapp.com/logo.jpg'/>",
-          attachments: [
-            {
-              filename: "planilhacatalogo.xlsx",
-              path: `planilhacatalogo.xlsx`,
-              cid: "nyan@example.com",
-            },
-          ],
-        })
-      )
-      .then((info) => {
-        console.log("email enviado com sucesso", info);
+async function enviarEmail(dados) {
+  console.log("email do usuario" + dados);
+  try {
+    await remetente.sendMail(
+      (destinatario = {
+        from: "abximports@outlook.com",
+        to: dados,
+        subject: "catálogo",
+        text: "envio do catálogo da abx imports ",
+        html: "<h1>bem vindo a abx imports</h1><h2>olá, \n sua planilha com os produtos chegou !!!  </h2><img  width='350' height='350' src='https://chat-bot-whats-app.herokuapp.com/logo.jpg'/>",
+        attachments: [
+          {
+            filename: "planilhacatalogo.xlsx",
+            path: `planilhacatalogo.xlsx`,
+            cid: "nyan@example.com",
+          },
+        ],
       })
-      .catch((err) => {
-        console.log("erro ao enviar email", err);
-      });
+    );
+    return true;
+  } catch {
+    return false;
   }
 }
 
