@@ -172,7 +172,7 @@ app.post("/whatsapp", async (req, res) => {
           "aguarde estamos enviando um catálogo em pdf"
       );
 
-      // enviarArquivo.envioDeArquivo(req.body.From);
+      enviarArquivo.envioDeArquivo(req.body.From);
       res.send(results.toString());
     } else if (
       (incomingWhatsappMsg == "2" && menu) ||
