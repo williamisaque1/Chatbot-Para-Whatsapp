@@ -67,10 +67,9 @@ function enviarEmail(dados) {
           },
         ],
       }),
-      function (err, info) {
+      function (err) {
         if (err) {
-          console.log(err);
-          return;
+          console.log("erro ao enviar email", err);
         } else {
           console.log("email enviado com sucesso");
         }
