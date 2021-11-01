@@ -111,7 +111,8 @@ app.post("/whatsapp", async (req, res) => {
       res.end(results.toString());
     } else if (
       (incomingWhatsappMsg == "1" && menu) ||
-      (incomingWhatsappMsg == "1" && voltar && menu)
+      (incomingWhatsappMsg == "1" && voltar && menu) ||
+      (incomingWhatsappMsg == "1" && menu == false && voltar == true)
     ) {
       const numero = req.body.From;
       // res.header("Content-Type", "application/pdf").status(200);
@@ -207,7 +208,8 @@ app.post("/whatsapp", async (req, res) => {
       }
     } else if (
       (incomingWhatsappMsg == "2" && menu) ||
-      (incomingWhatsappMsg == "2" && voltar && menu)
+      (incomingWhatsappMsg == "2" && voltar && menu) ||
+      (incomingWhatsappMsg == "1" && menu == false && voltar == true)
     ) {
       console.log(incomingWhatsappMsg !== isNaN && incomingWhatsappMsg > 3);
       res.writeHead(200, { "Content-Type": "text/xml" });
@@ -218,7 +220,8 @@ app.post("/whatsapp", async (req, res) => {
       // res.end();
     } else if (
       (incomingWhatsappMsg == "3" && menu) ||
-      (incomingWhatsappMsg == "3" && voltar && menu)
+      (incomingWhatsappMsg == "3" && voltar && menu) ||
+      (incomingWhatsappMsg == "1" && menu == false && voltar == true)
     ) {
       console.log(
         "menu " + menu + " voltar " + voltar + " envio de email " + enviodeemail
