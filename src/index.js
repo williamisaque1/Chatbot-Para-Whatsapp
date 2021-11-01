@@ -220,6 +220,9 @@ app.post("/whatsapp", async (req, res) => {
       (incomingWhatsappMsg == "3" && menu) ||
       (incomingWhatsappMsg == "3" && voltar)
     ) {
+      console.log(
+        "menu " + menu + " voltar " + voltar + " envio de email " + enviodeemail
+      );
       results.body(
         "entre no link para falar com um atendente em um chat vivo \n https://chat-ao-vivo-front-end.herokuapp.com/"
       );
