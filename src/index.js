@@ -136,7 +136,7 @@ app.post("/whatsapp", async (req, res) => {
           console.log("sera qur foi");
           res.header("Content-Type", "text/xml").status(200);
           results.body(
-            "deseja que enviamos o catálogo para o seu email ? digite sim ou não"
+            "deseja que enviamos o catálogo em uma planilha para o seu email ? digite sim ou não"
           );
 
           res.end(results.toString());
@@ -162,17 +162,17 @@ app.post("/whatsapp", async (req, res) => {
       if (await !fs.existsSync("planilhacatalogo.xlsx")) {
         enviarEmail.envioDeDados();
       }
-      enviarEmail.enviarEmail(incomingWhatsappMsg);
+      // enviarEmail.enviarEmail(incomingWhatsappMsg);
 
       res.header("Content-Type", "text/xml").status(200);
       results.body(
-        "email enviado com sucesso para este email: \n" +
+        "email enviado com sucesso para este email: " +
           incomingWhatsappMsg +
-          "\n"
+          "\n" +
+          "aguarde estamos enviando um catálogo em pdf"
       );
 
-      results.body("estamos enviando um arquivo");
-      enviarArquivo.envioDeArquivo(req.body.From);
+      // enviarArquivo.envioDeArquivo(req.body.From);
       res.send(results.toString());
     } else if (
       (incomingWhatsappMsg == "2" && menu) ||
