@@ -144,7 +144,7 @@ app.post("/whatsapp", async (req, res) => {
       );
       enviodeemail = false;
       menu = false;
-      voltar = false;
+
       res.end(results.toString());
     } else if (incomingWhatsappMsg == "sim" && enviodeemail) {
       console.log(incomingWhatsappMsg == "sim");
