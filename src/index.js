@@ -142,6 +142,7 @@ app.post("/whatsapp", async (req, res) => {
       results.body(
         "atendimento encerrado ! para voltar ao menu envie *voltar*"
       );
+      enviodeemail = false;
       res.end(results.toString());
     } else if (incomingWhatsappMsg == "sim" && enviodeemail) {
       console.log(incomingWhatsappMsg == "sim");
