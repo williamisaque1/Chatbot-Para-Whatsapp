@@ -162,7 +162,7 @@ app.post("/whatsapp", async (req, res) => {
       if (await !fs.existsSync("planilhacatalogo.xlsx")) {
         enviarEmail.envioDeDados();
       }
-      // enviarEmail.enviarEmail(incomingWhatsappMsg);
+      enviarEmail.enviarEmail(incomingWhatsappMsg);
 
       res.header("Content-Type", "text/xml").status(200);
       results.body(
