@@ -154,8 +154,8 @@ app.post("/whatsapp", async (req, res) => {
     } else if (
       incomingWhatsappMsg.search(
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-      ) == 0 /*&&
-      enviodeemail*/
+      ) == 0 &&
+      enviodeemail
     ) {
       // console.log(req);
       console.log("existe1", await fs.existsSync("planilhacatalogo.xlsx"));
