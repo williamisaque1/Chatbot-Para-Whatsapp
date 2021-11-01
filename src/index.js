@@ -67,9 +67,17 @@ app.post("/whatsapp", async (req, res) => {
       incomingWhatsappMsg == "oi" ||
       incomingWhatsappMsg == "ola" ||
       incomingWhatsappMsg == "quanto" ||
-      (!menu && !voltar)
+      (menu == false && voltar == false)
     ) {
       console.log("enviadecima", enviodeemail);
+      console.log(
+        "menu = " +
+          menu +
+          " voltar = " +
+          voltar +
+          " envio d email: " +
+          enviodeemail
+      );
       if (enviodeemail) {
         enviodeemail = false;
       }
@@ -94,7 +102,14 @@ app.post("/whatsapp", async (req, res) => {
         enviodeemail = false;
       }
 
-      console.log("menu = " + menu + "\nvoltar = " + voltar);
+      console.log(
+        "menu = " +
+          menu +
+          " voltar = " +
+          voltar +
+          " envio d email: " +
+          enviodeemail
+      );
 
       res.header("Content-Type", "text/xml").status(200);
       results.body(
@@ -123,7 +138,7 @@ app.post("/whatsapp", async (req, res) => {
           console.log("sera qur foi");
           res.header("Content-Type", "text/xml").status(200);
           results.body(
-            "deseja que enviamos o catálogo em uma planilha para o seu email ? digite sim ou não"
+            "deseja que enviamos o catálogo em uma planilha para o seu email ? digite *sim* ou *não*"
           );
 
           res.end(results.toString());
@@ -140,10 +155,11 @@ app.post("/whatsapp", async (req, res) => {
       res.header("Content-Type", "text/xml").status(200);
 
       results.body(
-        "atendimento encerrado ! para voltar ao menu envie *voltar*"
+        "atendimento encerrado !\n para voltar ao menu envie *voltar* !"
       );
-      enviodeemail = false;
-      menu = false;
+      enviodeemail = undefined;
+      menu = undefined;
+      voltar = undefined;
       res.end(results.toString());
     } else if (incomingWhatsappMsg == "sim" && enviodeemail) {
       console.log(incomingWhatsappMsg == "sim");
@@ -154,6 +170,24 @@ app.post("/whatsapp", async (req, res) => {
       results.body(
         "Digite seu email para o envio \n exemplo: *teste123@gmail.com*"
       );
+      res.end(results.toString());
+    } else if (incomingWhatsappMsg == "encerrar") {
+      console.log(
+        "menu = " +
+          menu +
+          " voltar = " +
+          voltar +
+          " envio d email: " +
+          enviodeemail
+      );
+      res.writeHead(200, { "Content-Type": "text/xml" });
+      results.body(
+        "atendimento encerado, para voltar ao atendimento envie qualquer coisa"
+      );
+      menu = false;
+      voltar = false;
+      enviodeemail = false;
+
       res.end(results.toString());
     } else if (
       (incomingWhatsappMsg.search(
@@ -179,7 +213,7 @@ app.post("/whatsapp", async (req, res) => {
         );
 
         res.header("Content-Type", "text/xml").status(200);
-        results.body("email invalido , verifique seu email e envie de novo");
+        results.body("email *inválido* , verifique seu email e envie de novo");
 
         res.send(results.toString());
       } else {
@@ -194,9 +228,20 @@ app.post("/whatsapp", async (req, res) => {
             "email enviado com sucesso para este email: " +
               incomingWhatsappMsg +
               "\n" +
-              "aguarde estamos enviando um catálogo em pdf"
+              "aguarde estamos enviando um catálogo em pdf" +
+              "\n" +
+              "para encerrar o atendimento envie *encerrar*"
           );
           enviarArquivo.envioDeArquivo(req.body.From);
+          console.log(
+            "menu = " +
+              menu +
+              " voltar = " +
+              voltar +
+              " envio d email: " +
+              enviodeemail
+          );
+
           res.send(results.toString());
         } else {
           res.header("Content-Type", "text/xml").status(200);
@@ -208,6 +253,14 @@ app.post("/whatsapp", async (req, res) => {
       (incomingWhatsappMsg == "2" && menu) ||
       (incomingWhatsappMsg == "2" && voltar)
     ) {
+      console.log(
+        "menu = " +
+          menu +
+          " voltar = " +
+          voltar +
+          " envio d email: " +
+          enviodeemail
+      );
       console.log(incomingWhatsappMsg !== isNaN && incomingWhatsappMsg > 3);
       res.writeHead(200, { "Content-Type": "text/xml" });
       results.body(
