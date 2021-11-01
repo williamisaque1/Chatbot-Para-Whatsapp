@@ -166,7 +166,9 @@ app.post("/whatsapp", async (req, res) => {
 
       res.header("Content-Type", "text/xml").status(200);
       results.body(
-        "email enviado com sucesso para este email: \n" + incomingWhatsappMsg
+        "email enviado com sucesso para este email: \n" +
+          incomingWhatsappMsg +
+          "\n"
       );
 
       results.body("estamos enviando um arquivo");
