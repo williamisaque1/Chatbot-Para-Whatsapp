@@ -128,7 +128,7 @@ app.post("/whatsapp", async (req, res) => {
 
           res.end(results.toString());
           enviodeemail = true;
-        }, 1500);
+        }, 2000);
       }
     } else if (
       (incomingWhatsappMsg == "nao" || incomingWhatsappMsg == "não") &&
