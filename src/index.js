@@ -18,7 +18,7 @@ const { fstat } = require("fs");
 var menu = false;
 var voltar = false;
 var enviodeemail = false;
-var passo = 0;
+
 /*
 
 app.get("/api", async function (req, res) {
@@ -67,27 +67,16 @@ app.post("/whatsapp", async (req, res) => {
   const incomingWhatsappMsg = req.body.Body.toLowerCase();
   const twiml = new MessagingResponse();
   const results = twiml.message();
-  //console.log(req.body);
+
   console.log(incomingWhatsappMsg);
-  //console.log(req.body);
-  console.log(encodeURI(req.body.Body));
-  /*if (req.body.Latitude) {
-    console.log("Hhh");
-    res.header("Content-Type", "text/xml").status(200);
-    res.end(req.body.toString());
-  }*/
+
   try {
     if (
       incomingWhatsappMsg == "oii" ||
       incomingWhatsappMsg == "oi" ||
       incomingWhatsappMsg == "ola" ||
       incomingWhatsappMsg == "quanto" ||
-      (!menu && !voltar) /* &&
-      (incomingWhatsappMsg == "sim" ||
-        incomingWhatsappMsg == "nao" ||
-        incomingWhatsappMsg == "1" ||
-        incomingWhatsappMsg == "2" ||
-        incomingWhatsappMsg == "3")*/
+      (!menu && !voltar)
     ) {
       console.log("enviadecima", enviodeemail);
       if (enviodeemail) {
@@ -115,7 +104,7 @@ app.post("/whatsapp", async (req, res) => {
       }
 
       console.log("menu = " + menu + "\nvoltar = " + voltar);
-      console.log(incomingWhatsappMsg == "voltar" ? (voltar = true) : "");
+
       res.header("Content-Type", "text/xml").status(200);
       results.body(
         `Para agilizar o atendimento Por favor escolha \n uma opção abaixo ${decodeURI(
@@ -148,22 +137,14 @@ app.post("/whatsapp", async (req, res) => {
 
           res.end(results.toString());
           enviodeemail = true;
-        }, 2900);
+        }, 2500);
       }
-      //enviarArquivo.envioDeArquivo(numero);
-    } else if (
-      (incomingWhatsappMsg == "sim" && enviodeemail) ||
-      (passo == 1 && enviodeemail)
-    ) {
+    } else if (incomingWhatsappMsg == "sim" && enviodeemail) {
       console.log(incomingWhatsappMsg == "sim");
       console.log("envio", enviodeemail);
-      console.log(passo);
-      if (passo == 1) {
-        passo = 0;
-        //enviodeemail = false;
-      }
+
       res.header("Content-Type", "text/xml").status(200);
-      // console.log("menu = " + menu + "\nvoltar = " + voltar);
+
       results.body(
         "Digite seu email para o envio \n exemplo: *teste123@gmail.com*"
       );
@@ -190,16 +171,12 @@ app.post("/whatsapp", async (req, res) => {
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
           ) == -1
         );
-        // enviodeemail = false;
 
-        console.log(menu);
-        console.log(voltar);
         res.header("Content-Type", "text/xml").status(200);
         results.body("email invalido , verifique seu email e envie de novo");
 
         res.send(results.toString());
       } else {
-        // console.log(req);
         console.log("existe1", await fs.existsSync("planilhacatalogo.xlsx"));
         if (await !fs.existsSync("planilhacatalogo.xlsx")) {
           enviarEmail.envioDeDados();
@@ -263,11 +240,3 @@ app.post("/whatsapp", async (req, res) => {
 app.listen(process.env.PORT || 8080, function () {
   console.log("Example app listening on port 3000!");
 });
-
-//.header("Content-Type", "text/xml").status(200);
-//res.writeHead(200, { "Content-Type": "text/xml" });
-/*results.media(
-    "https://cataas.com/cat"
-    //"https://static.netshoes.com.br/produtos/smartwatch-d15/06/NTZ-0047-006/NTZ-0047-006_zoom1.jpg?ts=1618244157&ims=544x",
-  );
- */

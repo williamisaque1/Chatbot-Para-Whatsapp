@@ -25,21 +25,9 @@ function envioDeDados() {
     console.log(produtos[i].descri.split("*")[1]);
     ws.cell(nLinha3++, 3).string(produtos[i].descri.split("*")[1]);
   }
-
-  // ws.cell(nLinha1++, 1).string(inf.titulo);
-
-  /* i.forEach((inf2) => {
-      ws.cell(nLinha2++, 2).string(inf2.descri);
-    });*/
-  /*i.forEach((inf3) => {
-      ws.cell(nLinha3++, 3).string(inf3.);
-    });
-  }
-  */
-
   wb.write("planilhacatalogo.xlsx");
 }
-//envioDeDados();
+
 const remetente = nodeMailer.createTransport({
   service: "hotmail",
   auth: {
@@ -52,29 +40,29 @@ function enviarEmail(dados) {
   if (dados != undefined) {
     console.log("email do usuario" + dados);
 
-    remetente.sendMail(
-      (destinatario = {
-        from: "abximports@outlook.com",
-        to: dados,
-        subject: "catálogo",
-        text: "envio do catálogo da abx imports ",
-        html: "<h1>bem vindo a abx imports</h1><h2>olá, \n sua planilha com os produtos chegou !!!  </h2><img  width='350' height='350' src='https://chat-bot-whats-app.herokuapp.com/logo.jpg'/>",
-        attachments: [
-          {
-            filename: "planilhacatalogo.xlsx",
-            path: `planilhacatalogo.xlsx`,
-            cid: "nyan@example.com",
-          },
-        ],
-      }),
-      function (err) {
-        if (err) {
-          console.log("erro ao enviar email", err);
-        } else {
-          console.log("email enviado com sucesso");
-        }
-      }
-    );
+    remetente
+      .sendMail(
+        (destinatario = {
+          from: "abximports@outlook.com",
+          to: dados,
+          subject: "catálogo",
+          text: "envio do catálogo da abx imports ",
+          html: "<h1>bem vindo a abx imports</h1><h2>olá, \n sua planilha com os produtos chegou !!!  </h2><img  width='350' height='350' src='https://chat-bot-whats-app.herokuapp.com/logo.jpg'/>",
+          attachments: [
+            {
+              filename: "planilhacatalogo.xlsx",
+              path: `planilhacatalogo.xlsx`,
+              cid: "nyan@example.com",
+            },
+          ],
+        })
+      )
+      .then((info) => {
+        console.log("email enviado com sucesso", info);
+      })
+      .catch((err) => {
+        console.log("erro ao enviar email", err);
+      });
   }
 }
 
