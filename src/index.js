@@ -162,22 +162,16 @@ app.post("/whatsapp", async (req, res) => {
       if (await !fs.existsSync("planilhacatalogo.xlsx")) {
         enviarEmail.envioDeDados();
       }
-      // enviarEmail.enviarEmail(incomingWhatsappMsg);
+      enviarEmail.enviarEmail(incomingWhatsappMsg);
+
       res.header("Content-Type", "text/xml").status(200);
       results.body(
-        "email enviado com sucesso para este email: \n" +
-          incomingWhatsappMsg +
-          "\n" +
-          "estamos enviando um catálogo em pdf"
+        "email enviado com sucesso para este email: \n" + incomingWhatsappMsg
       );
 
-      res.send(results.toString());
-      const twiml2 = new MessagingResponse();
-      var results2 = twiml2.message();
-      res.header("Content-Type", "text/xml").status(200);
-      results2.body("estamos enviando um arquivo");
+      results.body("estamos enviando um arquivo");
       enviarArquivo.envioDeArquivo(req.body.From);
-      res.send(results2.toString());
+      res.send(results.toString());
     } else if (
       (incomingWhatsappMsg == "2" && menu) ||
       (incomingWhatsappMsg == "2" && voltar)
