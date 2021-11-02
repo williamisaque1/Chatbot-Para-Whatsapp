@@ -3,7 +3,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
 
 const envioDeArquivo = (numero) => {
-  console.log("chegou o numero aqui " + numero);
+  console.log("chegou o numero aqu i " + numero);
   client.messages
     .create({
       body: `catálogo de produtos `,
