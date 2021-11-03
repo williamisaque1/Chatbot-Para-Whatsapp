@@ -56,7 +56,8 @@ async function enviarEmail(dados) {
       })
     );
     return true;
-  } catch {
+  } catch (erro) {
+    console.log("erro ocorrido", erro);
     return false;
   }
 }
