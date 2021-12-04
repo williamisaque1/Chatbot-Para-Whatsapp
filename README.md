@@ -12,7 +12,7 @@ Chatbot para whatsapp desenvolvido para abx imports com o intuito de automatizar
 ></img>
      <img width=750 , height=300 src=https://user-images.githubusercontent.com/63307185/144728141-95b52f58-4240-46c2-a9d4-cde21e4e9370.png
 ></img>
-   <img width=750 , height=300 src=https://user-images.githubusercontent.com/63307185/144728262-0d6ddfd8-112f-4fb8-9157-7d9481188d4f.png
+   <img width=650 , height=300 src=https://user-images.githubusercontent.com/63307185/144728262-0d6ddfd8-112f-4fb8-9157-7d9481188d4f.png
 ></img>
 
 
