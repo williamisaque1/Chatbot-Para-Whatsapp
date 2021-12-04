@@ -7,5 +7,5 @@ Chatbot para whatsapp desenvolvido para abx imports com o intuito de automatizar
 <p>envio de planilha de produtos por email </p>
 <p>envio de localização da loja</p>
 <p>Acesso a um chat para o atendimento do cliente </p>
-  <img width=50 , height=50 src=![image](https://user-images.githubusercontent.com/63307185/144727993-f6f59450-f2d7-47b5-9667-99ec417b0a13.png)
+  <img width=50 , height=50 src=https://user-images.githubusercontent.com/63307185/144727993-f6f59450-f2d7-47b5-9667-99ec417b0a13.png
 ></img>
