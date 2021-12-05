@@ -14,9 +14,10 @@ Chatbot para whatsapp desenvolvido para abx imports com o intuito de automatizar
       <h4>imagens de produtos</h4>
      <img width=750 , height=300 src=https://user-images.githubusercontent.com/63307185/144728141-95b52f58-4240-46c2-a9d4-cde21e4e9370.png
 ></img>
-    <h4>menu</h4>
+    <h4>pedindo para adicionar um email</h4>
    <img width=750 , height=200 src=https://user-images.githubusercontent.com/63307185/144728262-0d6ddfd8-112f-4fb8-9157-7d9481188d4f.png
-></img>
+></img
+    <h4>email enviado com sucesso</h4>
    <img width=750 , height=300 src=https://user-images.githubusercontent.com/63307185/144728304-206bdc9d-6ad8-4245-96ca-4a8bda87fabf.png
 ></img>
 
